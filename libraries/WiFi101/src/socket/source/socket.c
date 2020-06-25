@@ -67,9 +67,6 @@ MACROS
 #define UDP_TX_PACKET_OFFSET				(IP_PACKET_OFFSET + UDP_IP_HEADER_LENGTH)
 #define SSL_TX_PACKET_OFFSET				(TCP_TX_PACKET_OFFSET + TLS_RECORD_HEADER_LENGTH)
 
-#define SOCKET_REQUEST(reqID, reqArgs, reqSize, reqPayload, reqPayloadSize, reqPayloadOffset)		\
-	hif_send(M2M_REQ_GROUP_IP, reqID, reqArgs, reqSize, reqPayload, reqPayloadSize, reqPayloadOffset)
-
 
 #define SSL_FLAGS_ACTIVE					NBIT0
 #define SSL_FLAGS_BYPASS_X509				NBIT1
@@ -121,6 +118,11 @@ volatile tpfAppSocketCb		    gpfAppSocketCb;
 volatile tpfAppResolveCb		gpfAppResolveCb;
 volatile uint8					gbSocketInit = 0;
 volatile tpfPingCb				gfpPingCb;
+
+sint8 SOCKET_REQUEST(uint8 reqID, uint8 *reqArgs, uint16 reqSize, uint8 *reqPayload, uint16 reqPayloadSize, uint16 reqPayloadOffset)                          \
+{
+	return hif_send(M2M_REQ_GROUP_IP, reqID, reqArgs, reqSize, reqPayload, reqPayloadSize, reqPayloadOffset);
+}	
 
 /*********************************************************************
 Function

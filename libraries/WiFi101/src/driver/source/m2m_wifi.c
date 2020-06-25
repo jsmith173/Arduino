@@ -490,8 +490,9 @@ sint8 m2m_wifi_init(tstrWifiInitParam * param)
 	if(ret != M2M_SUCCESS) 	goto _EXIT1;
 
 	hif_register_cb(M2M_REQ_GROUP_WIFI,m2m_wifi_cb);
-
-	ret = nm_get_firmware_full_info(&strtmp);
+	
+	// WIFI101SIM
+	/*ret = nm_get_firmware_full_info(&strtmp);
 
 #ifdef ARDUINO
 	if (M2M_ERR_FAIL == ret)
@@ -500,6 +501,7 @@ sint8 m2m_wifi_init(tstrWifiInitParam * param)
 		ret = nm_get_firmware_info(&strtmp);
 	}
 #endif
+*/
 	M2M_INFO("Firmware ver   : %u.%u.%u Svnrev %u\n", strtmp.u8FirmwareMajor, strtmp.u8FirmwareMinor, strtmp.u8FirmwarePatch,strtmp.u16FirmwareSvnNum);
 	M2M_INFO("Firmware Build %s Time %s\n",strtmp.BuildDate,strtmp.BuildTime);
 	M2M_INFO("Firmware Min driver ver : %u.%u.%u\n", strtmp.u8DriverMajor, strtmp.u8DriverMinor, strtmp.u8DriverPatch);

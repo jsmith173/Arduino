@@ -174,6 +174,9 @@ void nm_bsp_reset(void)
  */
 void nm_bsp_sleep(uint32 u32TimeMsec)
 {
+	// WIFI101SIM
+	u32TimeMsec = 1;
+	
 	while (u32TimeMsec--) {
 		delay(1);
 	}

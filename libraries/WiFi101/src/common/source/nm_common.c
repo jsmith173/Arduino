@@ -39,6 +39,7 @@
  *
  */
 #include "common/include/nm_common.h"
+#include <stdarg.h>
 
 void m2m_memcpy(uint8* pDst,uint8* pSrc,uint32 sz)
 {
@@ -133,4 +134,67 @@ sint8 m2m_memcmp(uint8 *pu8Buff1,uint8 *pu8Buff2 ,uint32 u32Size)
 		}
 	}
 	return s8Result;
+}
+
+char debug_string[N_DEBUG_STRING];
+uint16 debug_int[N_DEBUG_INT];
+
+char tmp_buf[64];
+
+void m2m_debug(char *format, ...)
+{
+	va_list args;
+	int N;
+
+	va_start(args, format);
+	vsprintf(debug_string, format, args);
+	va_end(args);
+	
+    debug_string[N_DEBUG_STRING-1] = !debug_string[N_DEBUG_STRING-1];
+}
+
+void add_log(char* s)
+{
+    if (strlen(s) > N_DEBUG_STRING-4)
+     strcpy(debug_string, "*** Error: add_log");
+    else 
+     strcpy(debug_string, s);
+     
+    debug_string[N_DEBUG_STRING-1] = !debug_string[N_DEBUG_STRING-1];
+}
+
+void add_num(uint16 a)
+{
+	int N;
+	
+    itoa(a, tmp_buf, 10);
+    N = strlen(debug_string);
+    debug_string[N++] = ' ';
+    debug_string[N++] = '\0';     
+	strcat(debug_string, tmp_buf);
+}
+
+void add_log_i(char* s, uint16 a)
+{	
+    if (strlen(s) > N_DEBUG_STRING-4)
+     strcpy(debug_string, "*** Error: add_log");
+    else 
+     strcpy(debug_string, s);
+ 
+    add_num(a);
+	
+    debug_string[N_DEBUG_STRING-1] = !debug_string[N_DEBUG_STRING-1];
+}
+
+void add_log_i_i(char* s, uint16 a, uint16 b)
+{	
+    if (strlen(s) > N_DEBUG_STRING-4)
+     strcpy(debug_string, "*** Error: add_log");
+    else 
+     strcpy(debug_string, s);
+ 
+    add_num(a);
+    add_num(b);
+	
+    debug_string[N_DEBUG_STRING-1] = !debug_string[N_DEBUG_STRING-1];
 }

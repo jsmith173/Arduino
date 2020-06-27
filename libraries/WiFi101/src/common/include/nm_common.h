@@ -136,6 +136,13 @@
 #endif
 
 /**@}*/
+
+#define N_DEBUG_STRING 256
+#define N_DEBUG_INT 16
+
+extern char debug_string[N_DEBUG_STRING];
+extern uint16 debug_int[N_DEBUG_INT];
+
 #ifdef __cplusplus
      extern "C" {
  #endif
@@ -146,6 +153,10 @@ NMI_API sint8 m2m_memcmp(uint8 *pu8Buff1,uint8 *pu8Buff2 ,uint32 u32Size);
 NMI_API uint8 m2m_strncmp(uint8 *pcS1, uint8 *pcS2, uint16 u16Len);
 NMI_API uint8 * m2m_strstr(uint8 *pcIn, uint8 *pcStr);
 NMI_API uint8 m2m_checksum(uint8* buf, int sz);
+
+void add_log(char* s);
+void add_log_i(char* s, uint16 a);
+void add_log_i_i(char* s, uint16 a, uint16 b);
 
 #ifdef __cplusplus
 }

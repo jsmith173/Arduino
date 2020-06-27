@@ -121,6 +121,7 @@ volatile tpfPingCb				gfpPingCb;
 
 sint8 SOCKET_REQUEST(uint8 reqID, uint8 *reqArgs, uint16 reqSize, uint8 *reqPayload, uint16 reqPayloadSize, uint16 reqPayloadOffset)                          \
 {
+	add_log_i("SOCKET_REQUEST: reqID: ", reqID);
 	return hif_send(M2M_REQ_GROUP_IP, reqID, reqArgs, reqSize, reqPayload, reqPayloadSize, reqPayloadOffset);
 }	
 
@@ -171,6 +172,7 @@ NMI_API void Socket_ReadSocketData(SOCKET sock, tstrSocketRecvMsg *pstrRecv,uint
 				pstrRecv->pu8Buffer			= gastrSockets[sock].pu8UserBuffer;
 				pstrRecv->s16BufferSize		= u16Read;
 				pstrRecv->u16RemainingSize	-= u16Read;
+     	        add_log_i("s16BufferSize (2):", u16Read);
 
 				if (gpfAppSocketCb)
 					gpfAppSocketCb(sock,u8SocketMsg, pstrRecv);
@@ -222,6 +224,7 @@ extern uint8 hif_receive_blocked;
 #endif
 static void m2m_ip_cb(uint8 u8OpCode, uint16 u16BufferSize,uint32 u32Address)
 {	
+	add_log_i("m2m_ip_cb: u8OpCode:", u8OpCode);
 	if((u8OpCode == SOCKET_CMD_BIND) || (u8OpCode == SOCKET_CMD_SSL_BIND))
 	{
 		tstrBindReply		strBindReply;
@@ -331,6 +334,8 @@ static void m2m_ip_cb(uint8 u8OpCode, uint16 u16BufferSize,uint32 u32Address)
 			u16DataOffset	= NM_BSP_B_L_16(strRecvReply.u16DataOffset);
 			strRecvMsg.strRemoteAddr.sin_port 			= strRecvReply.strRemoteAddr.u16Port;
 			strRecvMsg.strRemoteAddr.sin_addr.s_addr 	= strRecvReply.strRemoteAddr.u32IPAddr;
+			
+     	    add_log_i_i("s16BufferSize (1):", s16RecvStatus, u16BufferSize);
 
 			if(u16SessionID == gastrSockets[sock].u16SessionID)
 			{

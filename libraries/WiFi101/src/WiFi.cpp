@@ -233,6 +233,7 @@ void WiFiClass::handleResolve(uint8_t * /*hostName*/, uint32_t hostIp)
 
 static void socket_cb(SOCKET sock, uint8 u8Msg, void *pvMsg)
 {
+	add_log_i("socket_cb: u8Msg:", u8Msg);
 	WiFiSocket.eventCallback(sock, u8Msg, pvMsg);
 }
 

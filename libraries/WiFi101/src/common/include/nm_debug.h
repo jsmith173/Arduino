@@ -69,6 +69,7 @@
 #define M2M_REQ(...)
 #define M2M_DBG(...)
 #define M2M_PRINT(...)
+#define M2M_DEBUG(...)                         do{m2m_debug(__VA_ARGS__);}while(0)
 
 #if (CONF_WINC_DEBUG == 1)
 #undef M2M_PRINT

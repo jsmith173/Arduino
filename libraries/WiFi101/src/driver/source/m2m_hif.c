@@ -313,6 +313,8 @@ sint8 hif_send(uint8 u8Gid,uint8 u8Opcode,uint8 *pu8CtrlBuf,uint16 u16CtrlBufSiz
 	sint8		ret = M2M_ERR_SEND;
 	volatile tstrHifHdr	strHif;
 
+	add_log_i_i("hif_send: u8Gid, u8Opcode:", u8Gid, u8Opcode);
+	//sprintf(debug_string, "hif_send: u8Gid: %d", u8Gid);
 	strHif.u8Opcode		= u8Opcode&(~NBIT7);
 	strHif.u8Gid		= u8Gid;
 	strHif.u16Length	= M2M_HIF_HDR_OFFSET;
@@ -458,6 +460,7 @@ static sint8 hif_isr(void)
 		{
 			uint16 size;
 
+     	    add_log("hif_isr:");
 			nm_bsp_interrupt_ctrl(0);
 			/*Clearing RX interrupt*/
 			reg &= ~NBIT0;
@@ -676,6 +679,7 @@ sint8 hif_handle_isr(void)
 sint8 hif_receive(uint32 u32Addr, uint8 *pu8Buf, uint16 u16Sz, uint8 isDone)
 {
 	sint8 ret = M2M_SUCCESS;
+	add_log("hif_receive:");
 	if((u32Addr == 0)||(pu8Buf == NULL) || (u16Sz == 0))
 	{
 		if(isDone)

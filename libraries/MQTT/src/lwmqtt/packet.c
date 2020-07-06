@@ -1,5 +1,14 @@
 #include "packet.h"
 
+int N_DEBUG_INT2;
+int debug_int2[MAX_DEBUG_INT2];
+
+void add_num2(int a)
+{
+  if (N_DEBUG_INT2 < MAX_DEBUG_INT2)
+   debug_int2[N_DEBUG_INT2++] = a;
+}  
+
 lwmqtt_err_t lwmqtt_detect_packet_type(uint8_t *buf, size_t buf_len, lwmqtt_packet_type_t *packet_type) {
   // set default packet type
   *packet_type = LWMQTT_NO_PACKET;

@@ -3,6 +3,11 @@
 
 #include "helpers.h"
 
+#define MAX_DEBUG_INT2 16
+extern int N_DEBUG_INT2;
+extern int debug_int2[MAX_DEBUG_INT2];
+void add_num2(int a);
+
 /**
  * The available packet types.
  */

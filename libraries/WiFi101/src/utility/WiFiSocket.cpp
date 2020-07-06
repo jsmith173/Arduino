@@ -188,6 +188,8 @@ int WiFiSocketClass::available(SOCKET sock)
 		return 0;
 	}
 
+	debug_int[0]=_info[sock].buffer.length;
+	debug_int[1]=_info[sock].recvMsg.s16BufferSize;
 	return (_info[sock].buffer.length + _info[sock].recvMsg.s16BufferSize);
 }
 
@@ -511,6 +513,7 @@ int WiFiSocketClass::fillRecvBuffer(SOCKET sock)
 		return 0;
 	}
 
+	debug_int[0]=size;
 	_info[sock].buffer.head = _info[sock].buffer.data;
 	_info[sock].buffer.length = size;
 	_info[sock].recvMsg.pu8Buffer += size;

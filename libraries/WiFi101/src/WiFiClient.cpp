@@ -129,10 +129,12 @@ int WiFiClient::read()
 {
 	uint8_t b;
 
+	add_log("read begin");
 	if (read(&b, sizeof(b)) != 1) {
 		return -1;
 	}
 
+	add_log_i("read end: ", b);
 	return b;
 }
 

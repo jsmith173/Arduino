@@ -141,6 +141,7 @@ uint16 debug_int[N_DEBUG_INT];
 
 char tmp_buf[64];
 
+// Nem mukodik
 void m2m_debug(char *format, ...)
 {
 	va_list args;

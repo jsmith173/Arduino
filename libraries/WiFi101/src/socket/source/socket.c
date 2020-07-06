@@ -337,6 +337,8 @@ static void m2m_ip_cb(uint8 u8OpCode, uint16 u16BufferSize,uint32 u32Address)
 			
      	    add_log_i_i("s16BufferSize (1):", s16RecvStatus, u16BufferSize);
 
+			debug_int[0]=s16RecvStatus;
+			debug_int[1]=u16BufferSize;
 			if(u16SessionID == gastrSockets[sock].u16SessionID)
 			{
 #ifdef ARDUINO

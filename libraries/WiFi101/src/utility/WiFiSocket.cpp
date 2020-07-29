@@ -46,8 +46,14 @@ enum {
 	SOCKET_STATE_ACCEPTED
 };
 
+char *WBuf001, *RBuf001;
+int WBufLen001, RBufLen001;
+int WAct001=0, RAct001=0;
+
 WiFiSocketClass::WiFiSocketClass()
 {
+    WBuf001 = RBuf001 = NULL;
+    WBufLen001 = RBufLen001 = 0;
 	for (int i = 0; i < MAX_SOCKET; i++) {
 		_info[i].state = SOCKET_STATE_INVALID;
 		_info[i].parent = -1;
@@ -282,6 +288,12 @@ uint16_t WiFiSocketClass::remotePort(SOCKET sock)
 
 size_t WiFiSocketClass::write(SOCKET sock, const uint8_t *buf, size_t size)
 {
+    WBuf001 = (char*)buf;
+    WBufLen001 = size;   
+    WAct001 = !WAct001;   
+	return size;
+	
+/*	
 	m2m_wifi_handle_events(NULL);
 
 	if (_info[sock].state != SOCKET_STATE_CONNECTED) {
@@ -315,6 +327,7 @@ size_t WiFiSocketClass::write(SOCKET sock, const uint8_t *buf, size_t size)
 #endif
 
 	return size;
+	*/
 }
 
 sint16 WiFiSocketClass::sendto(SOCKET sock, void *pvSendBuffer, uint16 u16SendLength, uint16 flags, struct sockaddr *pstrDestAddr, uint8 u8AddrLen)

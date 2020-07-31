@@ -47,13 +47,13 @@ enum {
 };
 
 char *WBuf001, *RBuf001;
-int WBufLen001, RBufLen001;
+int WBufLen001=0, RBufLen001=0, RBufRead001=0, RBufLock001=0;
 int WAct001=0, RAct001=0;
 
 WiFiSocketClass::WiFiSocketClass()
 {
-    WBuf001 = RBuf001 = NULL;
-    WBufLen001 = RBufLen001 = 0;
+    WBuf001 = NULL;
+    RBuf001 = (char*)malloc(SOCKET_BUFFER_SIZE);	
 	for (int i = 0; i < MAX_SOCKET; i++) {
 		_info[i].state = SOCKET_STATE_INVALID;
 		_info[i].parent = -1;
@@ -188,15 +188,16 @@ uint8 WiFiSocketClass::bound(SOCKET sock)
 
 int WiFiSocketClass::available(SOCKET sock)
 {
-	m2m_wifi_handle_events(NULL);
+	//SPECRW
+    return RBufLen001;
+	
+	/*m2m_wifi_handle_events(NULL);
 
 	if (_info[sock].state != SOCKET_STATE_CONNECTED && _info[sock].state != SOCKET_STATE_BOUND) {
 		return 0;
 	}
 
-	debug_int[0]=_info[sock].buffer.length;
-	debug_int[1]=_info[sock].recvMsg.s16BufferSize;
-	return (_info[sock].buffer.length + _info[sock].recvMsg.s16BufferSize);
+	return (_info[sock].buffer.length + _info[sock].recvMsg.s16BufferSize);*/
 }
 
 int WiFiSocketClass::peek(SOCKET sock)
@@ -222,12 +223,14 @@ int WiFiSocketClass::peek(SOCKET sock)
 
 int WiFiSocketClass::read(SOCKET sock, uint8_t* buf, size_t size)
 {
-	m2m_wifi_handle_events(NULL);
+	//SPECRW
+	/*m2m_wifi_handle_events(NULL);
 
 	if (_info[sock].state != SOCKET_STATE_CONNECTED && _info[sock].state != SOCKET_STATE_BOUND) {
 		return 0;
-	}
+	}*/
 
+	RBufLock001 = 1;
 	int avail = available(sock);
 
 	if (avail <= 0) {
@@ -238,7 +241,12 @@ int WiFiSocketClass::read(SOCKET sock, uint8_t* buf, size_t size)
 		size = avail;
 	}
 
-	int bytesRead = 0;
+	memcpy(buf, RBuf001, size);
+	RBufRead001 = size;
+	RBufLock001 = 0;
+    RAct001 = !RAct001;  
+    return size;
+	/*int bytesRead = 0;
 
 	while (size) {
 		if (_info[sock].buffer.length == 0 && _info[sock].recvMsg.s16BufferSize) {
@@ -273,7 +281,7 @@ int WiFiSocketClass::read(SOCKET sock, uint8_t* buf, size_t size)
 		m2m_wifi_handle_events(NULL);
 	}
 
-	return bytesRead;
+	return bytesRead;*/
 }
 
 IPAddress WiFiSocketClass::remoteIP(SOCKET sock)
@@ -288,6 +296,7 @@ uint16_t WiFiSocketClass::remotePort(SOCKET sock)
 
 size_t WiFiSocketClass::write(SOCKET sock, const uint8_t *buf, size_t size)
 {
+	//SPECRW
     WBuf001 = (char*)buf;
     WBufLen001 = size;   
     WAct001 = !WAct001;   

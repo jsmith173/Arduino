@@ -49,12 +49,12 @@ inline lwmqtt_err_t lwmqtt_arduino_network_read(void *ref, uint8_t *buffer, size
     }
 
     // wait/unblock for some time (RTOS based boards may otherwise fail since the wifi task cannot provide the data)
-    delay(0);
+    //delay(0);
 
     // otherwise check status
-    if (!n->client->connected()) {
+    /*if (!n->client->connected()) {
       return LWMQTT_NETWORK_FAILED_READ;
-    }
+    }*/
   }
 
   // check counter
@@ -390,7 +390,7 @@ bool MQTTClient::loop() {
 bool MQTTClient::connected() {
   // a client is connected if the network is connected, a client is available and
   // the connection has been properly initiated
-  return this->netClient != nullptr && this->netClient->connected() == 1 && this->_connected;
+  return /*this->netClient != nullptr && this->netClient->connected() == 1 && */ this->_connected;
 }
 
 bool MQTTClient::disconnect() {

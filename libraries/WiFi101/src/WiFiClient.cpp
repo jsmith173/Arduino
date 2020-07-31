@@ -101,10 +101,11 @@ size_t WiFiClient::write(uint8_t b)
 
 size_t WiFiClient::write(const uint8_t *buf, size_t size)
 {
-	if (_socket < 0 || size == 0 || !connected()) {
+	//SPECRW
+	/*if (_socket < 0 || size == 0 || !connected()) {
 		setWriteError();
 		return 0;
-	}
+	}*/
 
 	int result = WiFiSocket.write(_socket, buf, size);
 
